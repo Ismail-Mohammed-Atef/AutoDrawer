@@ -1,0 +1,138 @@
+﻿<Window x:Class="Draw2.Views.UserMainPageView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Draw2.Views"
+        xmlns:Models="clr-namespace:Draw2.Entities"
+        xmlns:ViewModels="clr-namespace:Draw2.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=ViewModel:UserMainPageViewModel, IsDesignTimeCreatable=True}"
+        Title="UserMainPageView" Height="450" Width="800" Background="#1E1E1E">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Panel for Add New Project Button and Project Name -->
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="0,0,10,0">
+            <!-- Add New Project Button -->
+            <Button Content="Add Project" 
+                    Height="40" 
+                    Width="110" 
+                    Margin="10,30,0,10" 
+                    Command="{Binding AddNewTabCommand}" 
+                    Background="#3E3E3E" 
+                    Foreground="White" 
+                    BorderBrush="#666666" 
+                    FontWeight="Bold" 
+                    FontSize="14" 
+                    VerticalAlignment="Center">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#3E3E3E"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="BorderBrush" Value="#666666"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#555555"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <TextBox Text="{Binding ProjectName}" 
+                     FontSize="16" 
+                     Height="40" 
+                     Width="100"
+                     Margin="0,10,0,10"
+                     Padding="15,5"
+                     Background="#2D2D2D" 
+                     Foreground="White"
+                     BorderBrush="#444444" 
+                     BorderThickness="1" 
+                     FontWeight="SemiBold"
+                     VerticalAlignment="Center" 
+                     HorizontalAlignment="Stretch"
+                     VerticalContentAlignment="Center">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Background" Value="#2D2D2D"/>
+                        <Setter Property="BorderBrush" Value="#444444"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#0078D7"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <Button Content="Logout" 
+        Height="40" 
+        Width="110" 
+        Margin="10,200,0,10" 
+        Command="{Binding LogoutCommand}" 
+        Background="#3E3E3E" 
+        Foreground="White" 
+        BorderBrush="#666666" 
+        FontWeight="Bold" 
+        FontSize="14" 
+        VerticalAlignment="Center">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#3E3E3E"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="BorderBrush" Value="#666666"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#555555"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <!-- Project Name TextBox -->
+        </StackPanel>
+
+        <!-- Main Area for Tabs -->
+        <TabControl Grid.Column="1" DockPanel.Dock="Right" 
+                    ItemsSource="{Binding ViewModels}"
+                    SelectedItem="{Binding SelectedTab}" 
+                    Margin="10,10,0,0" Background="#333333">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Width="150">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Text="{Binding Header}" Foreground="Black" />
+                        <!-- Close Button for Tabs -->
+                        <Button Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                                CommandParameter="{Binding}" 
+                                Style="{StaticResource {x:Type Button}}" 
+                                Width="30" Height="30" 
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center" 
+                                Background="Transparent" 
+                                BorderBrush="Transparent">
+                            <Button.Content>
+                                <TextBlock Text="X" FontSize="16" FontWeight="Bold" Foreground="#FF5C5C"/>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding Content}" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </Grid>
+</Window>
